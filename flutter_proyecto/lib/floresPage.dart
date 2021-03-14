@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_proyecto/providers/resultado_provider.dart';
+import 'package:flutter_proyecto/resultados_page.dart';
 import 'dart:io';
 import 'package:tflite/tflite.dart';
 import 'package:image_picker/image_picker.dart';
@@ -93,7 +94,7 @@ class _FloresState extends State<Flores> {
               child: Text('Ver resultados'),
             ),
             onPressed: () {
-              Navigator.pushNamed(context, 'results');
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ResultadosPage(email: this.email) ));
             },
           ),
         ],

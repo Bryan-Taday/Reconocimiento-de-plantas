@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         'login': (BuildContext context) => LoginPage(),
         'flores': (BuildContext context) => Flores(),
         'register': (BuildContext context) => RegisterPage(),
-        'results': (BuildContext context) => ResultadosPage(),
+        //'results': (BuildContext context) => ResultadosPage(),
       },
     );
   }

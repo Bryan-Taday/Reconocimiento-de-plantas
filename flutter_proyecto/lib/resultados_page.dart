@@ -1,36 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ResultadosPage extends StatefulWidget {
+  final String email;
+  ResultadosPage({Key key, @required this.email}) : super(key: key);
   @override
   _ResultadosPageState createState() => _ResultadosPageState();
 }
 
 class _ResultadosPageState extends State<ResultadosPage> {
   final List<Map<dynamic, dynamic>> lists = [];
-  String email;
   final ScrollController _scrollController = new ScrollController();
   CollectionReference resultados;
+
   @override
   void initState() {
-    FirebaseAuth.instance.authStateChanges().listen((User user) {
-      if (user == null) {
-        print('User is currently signed out!');
-      } else {
-        print('User is signed in!');
-        this.email = user.email;
-      }
-    });
-    cargar();
+    this.resultados = FirebaseFirestore.instance.collection('Usuarios').doc(widget.email).collection('results');
     super.initState();
-  }
-
-  void cargar() async {
-    this.resultados = FirebaseFirestore.instance
-        .collection('Usuarios')
-        .doc(email)
-        .collection('results');
   }
 
   @override
@@ -51,7 +37,7 @@ class _ResultadosPageState extends State<ResultadosPage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
+      /*floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
             this.resultados = FirebaseFirestore.instance
@@ -61,7 +47,7 @@ class _ResultadosPageState extends State<ResultadosPage> {
           });
         },
         child: Icon(Icons.refresh),
-      ),
+      ),*/
     );
   }
 
@@ -73,7 +59,6 @@ class _ResultadosPageState extends State<ResultadosPage> {
             if (snapshot.hasError) {
               return Text("Something went wrong");
             }
-
             if (snapshot.connectionState == ConnectionState.done) {
               lists.clear();
               snapshot.data.docs.forEach((element) {
@@ -87,7 +72,7 @@ class _ResultadosPageState extends State<ResultadosPage> {
                     return _cards(lists[index]);
                   });
             }
-            return Text("loading");
+            return CircularProgressIndicator();
           }),
     );
   }
